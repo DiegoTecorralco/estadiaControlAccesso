@@ -12,13 +12,21 @@ studentController.getAll = async(req,res) => {
     }
 };
 
-studentController.getOne = async(req,res) => {
-    try{
-
-    } catch{
-
-    }
-}
+// Controlador para obtener un estudiante por ID
+studentController.getOne = async (req, res) => {
+  try {
+      // Llama al DAO para obtener el estudiante
+      const student = await studentDAO.getOne(req.params.nia); 
+      if (student) {
+          res.json({ data: student });
+      } else {
+          res.status(404).json({ message: "Student not found" });
+      }
+  } catch (error) {
+      res.status(500).json({ message: "Error fetching student", error: error.message });
+  }
+};
+  
 
 studentController.insert = async (req, res) => {
     try {

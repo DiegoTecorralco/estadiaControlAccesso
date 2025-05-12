@@ -4,7 +4,11 @@ import moment from "moment-timezone";
 const studentDAO = {};
 
 studentDAO.getAll = async () =>{
-    const Student = await Student.find();
+    return await Student.find(); // Busca todos los estudiantes
+}
+
+studentDAO.getOne = async (nia) => {
+    return await Student.findOne({ nia: nia }); 
 }
 
 studentDAO.insert = async (studentData) => {
