@@ -9,7 +9,7 @@ studentDAO.insert = async (studentData) => {
 
   if (existingStudent) {
     throw new Error("El NIA ya está registrado.");
-  }
+  } 
 
   // Si no existe, crear el nuevo estudiante
   const student = await Student.create(studentData);

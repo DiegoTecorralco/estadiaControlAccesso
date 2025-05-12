@@ -20,21 +20,30 @@ studentController.getOne = async(req,res) => {
     }
 }
 
-studentController.insert = async(req,res) => {
-    try{
-        const response = await studentDAO.insert(req.body)
-        res.json({
-            data: {
-                message: "student saved",
-                student: response
-            }
+studentController.insert = async (req, res) => {
+    try {
+      const response = await studentDAO.insert(req.body);
+      res.status(201).json({
+        data: {
+          message: "student saved",
+          student: response
+        }
+      });
+    } catch (error) {
+      // Verifica si es un error de duplicado
+      if (error.code === 11000) {
+        return res.status(400).json({
+          data: { message: "El NIA ya está registrado." }
         });
-    } catch(error){
-        res.json({
-            data: { message: error }
-        });
+      }
+  
+      // Otro tipo de error
+      res.status(500).json({
+        data: { message: "Error al guardar el estudiante.", error: error.message }
+      });
     }
-}
+  };
+  
 
 studentController.update = async(req,res) => {
     try{
