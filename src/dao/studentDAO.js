@@ -1,7 +1,11 @@
-import Student from "../models/student.js";
+import Student from "../models/student.js"; 
 import moment from "moment-timezone";
 
 const studentDAO = {};
+
+studentDAO.getAll = async () =>{
+    const Student = await Student.find();
+}
 
 studentDAO.insert = async (studentData) => {
   // Validar si ya existe un estudiante con el mismo NIA
