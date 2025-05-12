@@ -32,4 +32,17 @@ studentDAO.insert = async (studentData) => {
   return studentWithFormattedDates;
 };
 
+studentDAO.update = async (nia, studentData) => {
+    return await Student.findOneAndUpdate(
+      { nia: Number(nia) },   // Buscar por NIA, asegurando tipo Number
+      { $set: studentData },  // Solo actualiza los campos que se envían
+      { new: true }           // Retorna el estudiante actualizado
+    );
+  };
+  
+
+studentDAO.delete = async (nia) => {
+    return await Student.findOneAndDelete({ nia: nia }); // Elimina el estudiante por su ID
+};
+
 export default studentDAO;

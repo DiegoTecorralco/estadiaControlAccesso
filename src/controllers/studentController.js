@@ -53,20 +53,44 @@ studentController.insert = async (req, res) => {
   };
   
 
-studentController.update = async(req,res) => {
-    try{
+// Controlador para actualizar un estudiante
+studentController.update = async (req, res) => {
+  try {
+      // Llama al DAO para actualizar el estudiante
+      const updatedStudent = await studentDAO.update(req.params.nia, req.body);
+      if (updatedStudent) {
+          res.json({
+              data: {
+                  message: "Student updated successfully",
+                  student: updatedStudent
+              }
+          });
+      } else {
+          res.status(404).json({ message: "Student not found" });
+      }
+  } catch (error) {
+      res.status(500).json({ message: "Error updating student", error: error.message });
+  }
+};
 
-    } catch{
-
-    }
-}
-
-studentController.delete = async(req,res) => {
-    try{
-
-    } catch{
-
-    }
-}
+// Controlador para eliminar un estudiante
+studentController.delete = async (req, res) => {
+  try {
+      // Llama al DAO para eliminar el estudiante
+      const deletedStudent = await studentDAO.delete(req.params.nia);
+      if (deletedStudent) {
+          res.json({
+              data: {
+                  message: "Student deleted successfully",
+                  student: deletedStudent
+              }
+          });
+      } else {
+          res.status(404).json({ message: "Student not found" });
+      }
+  } catch (error) {
+      res.status(500).json({ message: "Error deleting student", error: error.message });
+  }
+};
 
 export default studentController
