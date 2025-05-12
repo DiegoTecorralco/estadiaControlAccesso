@@ -4,16 +4,24 @@ import moment from "moment-timezone";
 const studentDAO = {};
 
 studentDAO.insert = async (studentData) => {
+  // Validar si ya existe un estudiante con el mismo NIA
+  const existingStudent = await Student.findOne({ nia: studentData.nia });
+
+  if (existingStudent) {
+    throw new Error("El NIA ya está registrado.");
+  }
+
+  // Si no existe, crear el nuevo estudiante
   const student = await Student.create(studentData);
 
   // Convertir fechas a la zona horaria deseada
-  const studentDate = {
+  const studentWithFormattedDates = {
     ...student.toObject(),
     createdAt: moment(student.createdAt).tz("America/Mexico_City").format(),
     updatedAt: moment(student.updatedAt).tz("America/Mexico_City").format()
   };
 
-  return studentDate; // ✅ retorno final
+  return studentWithFormattedDates;
 };
 
 export default studentDAO;
