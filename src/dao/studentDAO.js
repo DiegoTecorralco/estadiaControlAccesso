@@ -3,14 +3,17 @@ import moment from "moment-timezone";
 
 const studentDAO = {};
 
+//obtener todos los estudiates
 studentDAO.getAll = async () =>{
     return await Student.find(); // Busca todos los estudiantes
 }
 
+//obtener por nia del estudiante
 studentDAO.getOne = async (nia) => {
     return await Student.findOne({ nia: nia }); 
 }
 
+//agregar
 studentDAO.insert = async (studentData) => {
   // Validar si ya existe un estudiante con el mismo NIA
   const existingStudent = await Student.findOne({ nia: studentData.nia });
@@ -32,6 +35,7 @@ studentDAO.insert = async (studentData) => {
   return studentWithFormattedDates;
 };
 
+//actualizar
 studentDAO.update = async (nia, studentData) => {
   const updatedStudent = await Student.findOneAndUpdate(
     { nia: Number(nia) },
@@ -48,12 +52,11 @@ studentDAO.update = async (nia, studentData) => {
     // Solo formatea updatedAt a hora de México
     updatedAt: moment(updatedStudent.updatedAt).tz("America/Mexico_City").format("YYYY-MM-DD HH:mm:ss")
   };
-
   return formattedStudent;
 };
 
   
-
+//eliminar
 studentDAO.delete = async (nia) => {
     return await Student.findOneAndDelete({ nia: nia }); // Elimina el estudiante por su ID
 };
