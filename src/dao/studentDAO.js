@@ -33,12 +33,25 @@ studentDAO.insert = async (studentData) => {
 };
 
 studentDAO.update = async (nia, studentData) => {
-    return await Student.findOneAndUpdate(
-      { nia: Number(nia) },   // Buscar por NIA, asegurando tipo Number
-      { $set: studentData },  // Solo actualiza los campos que se envían
-      { new: true }           // Retorna el estudiante actualizado
-    );
+  const updatedStudent = await Student.findOneAndUpdate(
+    { nia: Number(nia) },
+    { $set: studentData },
+    { new: true }
+  );
+
+  if (!updatedStudent) return null;
+
+  const formattedStudent = {
+    ...updatedStudent.toObject(),
+    // Mantiene createdAt como está (UTC)
+    createdAt: moment(updatedStudent.createdAt).tz("America/Mexico_City").format("YYYY-MM-DD HH:mm:ss"),
+    // Solo formatea updatedAt a hora de México
+    updatedAt: moment(updatedStudent.updatedAt).tz("America/Mexico_City").format("YYYY-MM-DD HH:mm:ss")
   };
+
+  return formattedStudent;
+};
+
   
 
 studentDAO.delete = async (nia) => {

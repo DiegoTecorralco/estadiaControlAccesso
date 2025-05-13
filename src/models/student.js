@@ -7,7 +7,6 @@ const studentSchema = new Schema ({
     semester:{type: String, required: true},
     grade:{type: Number, required:true},
     group:{type: String, required: true}
-    
 },{ timestamps: true });
 
 const Student = model('student', studentSchema)
