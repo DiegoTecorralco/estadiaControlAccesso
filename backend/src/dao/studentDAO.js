@@ -5,13 +5,13 @@ const studentDAO = {};
 
 //obtener todos los estudiates
 studentDAO.getAll = async () =>{
-    return await Student.find(); // Busca todos los estudiantes
-}
+    const students = await Student.find(); // Busca todos los estudiantes
+};
 
 //obtener por nia del estudiante
 studentDAO.getOne = async (nia) => {
     return await Student.findOne({ nia: nia }); 
-}
+};
 
 //agregar
 studentDAO.insert = async (studentData) => {

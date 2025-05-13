@@ -12,6 +12,7 @@
   "author": "Diego Tecorralco",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.1.0",
     "moment-timezone": "^0.5.48",
     "mongoose": "^8.14.1",
