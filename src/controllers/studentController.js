@@ -3,14 +3,14 @@ import studentDAO from "../dao/studentDAO.js";
 
 const studentController = {};
 
-studentController.getAll = async(req,res) => {
-    try{
-        const students = await Student.find();
-        res.json(students);
-    } catch(err){
-        res.error(500).json({ message: err.message });
-    }
-};
+  studentController.getAll = async(req,res) => {
+      try{
+          const students = await Student.find();
+          res.json({data: students});
+      } catch(err){
+          res.error(500).json({ message: err.message });
+      }
+  };
 
 // Controlador para obtener un estudiante por ID
 studentController.getOne = async (req, res) => {

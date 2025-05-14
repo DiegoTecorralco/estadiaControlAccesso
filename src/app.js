@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import studentRouter from './routes/studentRoutes.js';
+import registroRouter from './routes/registroRoutes.js';
 
 const app = express();
 
@@ -29,5 +30,6 @@ mongoose.connect("mongodb+srv://Carlos:1234567890@carlos52.fcnaz.mongodb.net/Con
 
 //ROUTES
 app.use('/api/student', studentRouter)
+app.use('/api/registro', registroRouter);
 
  export default app;
