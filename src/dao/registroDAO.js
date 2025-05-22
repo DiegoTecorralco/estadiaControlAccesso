@@ -30,12 +30,21 @@ registroDAO.insert = async (nia) =>{
     nia: estudiante.nia,
     name: estudiante.name,
     lastname: estudiante.lastname,
+    grade: estudiante.grade,
     group: estudiante.group,
+    semester: estudiante.semester, 
     asistencia: true,
     hora: horaActual.format("YYYY-MM-DD HH:mm:ss"),
     esRetardo: esRetardo
     });
     return nuevoRegistro;
 };
+
+registroDAO.getBySemester = async (semestre) => {
+    return await Registro.find({ semester: semestre });
+};
+registroDAO.getByGrade= async (grado) =>{
+    return await Registro.find({grade:grado});
+}
 
 export default registroDAO;

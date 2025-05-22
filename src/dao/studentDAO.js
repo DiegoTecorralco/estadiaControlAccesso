@@ -61,5 +61,9 @@ studentDAO.update = async (nia, studentData) => {
 studentDAO.delete = async (nia) => {
     return await Student.findOneAndDelete({ nia: nia }); // Elimina el estudiante por su ID
 };
+// Obtener estudiantes por semestre
+studentDAO.getBySemester = async (semester) => {
+  return await Student.find({ semester: semester });
+};
 
 export default studentDAO;

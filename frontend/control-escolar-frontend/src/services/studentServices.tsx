@@ -26,4 +26,9 @@ export const deleteStudent = async (id: string): Promise<any> => {
     const response = await axios.delete(`${api_url}/delete/${id}`);
     return response.data;
 }
+export const getStudentsBySemester = async (semester: string): Promise<any> => {
+    const response = await axios.get(`${api_url}/getBySemester/${semester}`);
+    return response.data;
+};
+
     

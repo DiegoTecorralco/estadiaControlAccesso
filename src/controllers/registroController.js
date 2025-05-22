@@ -48,4 +48,24 @@ registroController.insert = async (req, res) => {
   }
 };
 
+registroController.getBySemester = async (req, res) => {
+    try {
+        const { semestre } = req.params;
+        const registros = await registroDAO.getBySemester(semestre);
+        res.json({ data: registros });
+    } catch (error) {
+        res.status(500).json({ message: "Error al obtener registros", error: error.message });
+    }
+};
+
+registroController.getByGrade = async (req,res) => {
+  try {
+    const {grado} =req.params;
+    const registros = await registroDAO.getByGrade(grado);
+    res.json({data: registros});
+  } catch (error) {
+    res.status(500).json({message: "Error al obtener los registros", error: error.message});
+  }
+};
+
 export default registroController;

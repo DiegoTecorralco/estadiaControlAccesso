@@ -8,5 +8,6 @@ studentRouter.get('/getOne/:nia', studentController.getOne);
 studentRouter.post('/insert', studentController.insert);
 studentRouter.put('/update/:nia', studentController.update);
 studentRouter.delete('/delete/:nia', studentController.delete);
+studentRouter.get('/getBySemester/:semester', studentController.getBySemester);
 
 export default studentRouter;

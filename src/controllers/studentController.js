@@ -93,4 +93,15 @@ studentController.delete = async (req, res) => {
   }
 };
 
+// En tu studentController.js
+studentController.getBySemester = async (req, res) => {
+    try {
+        const semester = req.params.semester;
+        const students = await Student.find({ semester: semester });
+        res.json({ data: students });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 export default studentController
