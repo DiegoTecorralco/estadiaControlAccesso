@@ -1,0 +1,25 @@
+{
+  "name": "estadiacontrolaccesso",
+  "version": "1.0.0",
+  "description": "en este repositorio voy a crear todo lo que es de mi proyecto de estadia desde cero, como la api con node.js y javascript, el frontend realizado en react",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Diego Tecorralco",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "moment-timezone": "^0.5.48",
+    "mongoose": "^8.14.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
