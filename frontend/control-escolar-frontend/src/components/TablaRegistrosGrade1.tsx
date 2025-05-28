@@ -15,6 +15,7 @@ interface Registro {
 
 export const TablaRegistrosGrade1 = () => {
   const [registros, setRegistros] = useState<Registro[]>([]);
+  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>("");
 
   useEffect(() => {
     getRegistrosByGrade("1")
@@ -28,13 +29,22 @@ export const TablaRegistrosGrade1 = () => {
       });
   }, []);
 
-  const registrosGrupoA = registros.filter((reg) => reg.group === "A");
-  const registrosGrupoB = registros.filter((reg) => reg.group === "B");
-  const registrosGrupoC = registros.filter((reg) => reg.group === "C");
+  // Función para obtener solo la fecha de la hora (YYYY-MM-DD)
+  const obtenerFecha = (hora: string) => hora.split(" ")[0];
+
+  // Filtrar por fecha seleccionada si existe
+  const registrosFiltrados = fechaSeleccionada
+    ? registros.filter((reg) => obtenerFecha(reg.hora) === fechaSeleccionada)
+    : registros;
+
+  const registrosGrupoA = registrosFiltrados.filter((reg) => reg.group === "A");
+  const registrosGrupoB = registrosFiltrados.filter((reg) => reg.group === "B");
+  const registrosGrupoC = registrosFiltrados.filter((reg) => reg.group === "C");
 
   const renderTabla = (grupo: string, data: Registro[]) => (
     <div className="mb-5">
       <h4>Registros del Grupo {grupo}</h4>
+      <h6>Aquí están los alumnos registrados en la fecha seleccionada del grupo {grupo}</h6>
       <div className="table-responsive">
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
@@ -72,6 +82,20 @@ export const TablaRegistrosGrade1 = () => {
 
   return (
     <>
+      <div className="mb-4">
+  <label className="form-label">
+    <h2 className="text-primary fw-bold">Busca el Pase de lista por fecha:</h2>
+  </label>
+  <input
+    type="date"
+    className="form-control form-control-lg border border-3 border-primary shadow"
+    style={{ backgroundColor: "#e3f2fd", fontSize: "1.2rem" }}
+    value={fechaSeleccionada}
+    onChange={(e) => setFechaSeleccionada(e.target.value)}
+  />
+</div>
+
+
       {renderTabla("A", registrosGrupoA)}
       {renderTabla("B", registrosGrupoB)}
       {renderTabla("C", registrosGrupoC)}

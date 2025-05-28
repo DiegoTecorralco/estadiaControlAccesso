@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { getAllStudents } from '../services/studentServices';
 
 interface Student {
-  nia: string;
+  nia: number;
   name: string;
   lastname: string;
   semester: string;
-  grade: string;
+  grade: number;
   group: string;
 }
 
@@ -17,7 +17,7 @@ export const Table = () => {
     getAllStudents()
       .then((data) => {
         const { data: dataStudents } = data;
-        const filtered = dataStudents.filter((student: Student) => student.semester === "2");
+        const filtered = dataStudents.filter((student: Student) => student.grade === 2);
         console.log("Estudiantes del semestre 2", filtered);
         setStudents(filtered);
       })
@@ -33,6 +33,7 @@ export const Table = () => {
   const renderTable = (grupo: string, data: Student[]) => (
     <div className="mb-5">
       <h4>Lista del Grupo {grupo}</h4>
+      <h6>Aqui estan todos los estudiantes inscritos en el 1 grado grupo {grupo}</h6>
       <div className="table-responsive">
         <table className="table table-bordered table-striped table-hover">
           <thead className="table-dark">
@@ -60,7 +61,7 @@ export const Table = () => {
                 </td>
                 <td>
                   <button className="btn btn-danger btn-sm">Eliminar</button>
-                </td>
+                </td> 
               </tr>
             ))}
           </tbody>

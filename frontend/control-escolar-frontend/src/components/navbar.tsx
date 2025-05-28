@@ -18,7 +18,10 @@ export const Navbar = ({ handleNavigation }: { handleNavigation: (component: str
 
         <div className="collapse navbar-collapse" id="navbarContent">
           <ul className="navbar-nav me-auto d-flex align-items-center gap-3">
-            
+            <li className="nav-item d-flex align-items-center gap-2">
+              <span className="fw-semibold text-primary">Registro:</span>
+              <button className="btn btn-outline-primary btn-sm" onClick={() => handleNavigation("registro")}>registro general</button>
+            </li>
             {/* Sección Registros */}
             <li className="nav-item d-flex align-items-center gap-2">
               <span className="fw-semibold text-primary">Registros:</span>

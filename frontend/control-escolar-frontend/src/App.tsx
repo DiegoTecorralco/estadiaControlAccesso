@@ -1,14 +1,17 @@
-// src/App.tsx
 import React, { useState } from 'react';
 import { Form } from './components/Form';
-import { Table } from './components/Table';
+import { Table } from './components/Table1grade';
 import { Navbar } from './components/navbar';
 import { TablaRegistrosGrade1} from './components/TablaRegistrosGrade1';
-import { TablaRegistrosGrade2 } from './components/tablaRegistrosGrade2';
+import { TablaRegistrosGrade2 } from './components/TablaRegistrosGrade2';
 import { TablaRegistrosGrade3 } from './components/TablaRegistrosGrade3';
+import { Table2grade } from './components/Table2grade';
+import { Table3grade } from './components/Table3grade';
+import logoCentroEscolar from './assets/logo_centro_escolar.jpg';
+
 
 function App() {
-  const [activeComponent, setActiveComponent] = useState<string>("");
+  const [activeComponent, setActiveComponent] = useState<string>("registro");
 
   const handleNavigation = (component: string) => {
     setActiveComponent(component);
@@ -22,10 +25,13 @@ function App() {
         </div>
         <div className="row">
           <div className="col-12">
-            {activeComponent === "1grado" && (
+            {activeComponent === "registro" && (
               <>
+              <div className="text-center my-4">
+                <img src={logoCentroEscolar} alt="Logo Centro Escolar" style={{ width: '150px' }} />
+                <h1 className="mt-3">Registros Bachillerato Matutino Centro Escolar General Rafael Cravioto Pacheco</h1>
+              </div>
                 <Form />
-                <Table />
               </>
             )}
           </div>
@@ -50,6 +56,27 @@ function App() {
               <>
                 <Form />
                 <TablaRegistrosGrade3 />
+              </>
+            )}
+          </div>
+          <div className="col-12">
+            {activeComponent === "1grado" && (
+              <>
+                <Table />
+              </>
+            )}
+          </div>
+          <div className="col-12">
+            {activeComponent === "2grado" && (
+              <>
+                <Table2grade/>
+              </>
+            )}
+          </div>
+          <div className="col-12">
+            {activeComponent === "3grado" && (
+              <>
+                <Table3grade/>
               </>
             )}
           </div>

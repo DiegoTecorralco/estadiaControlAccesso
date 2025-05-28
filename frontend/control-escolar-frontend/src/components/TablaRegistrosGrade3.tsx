@@ -35,6 +35,7 @@ export const TablaRegistrosGrade3 = () => {
   const renderTabla = (grupo: string, data: Registro[]) => (
     <div className="mb-5">
       <h4>Registros del Grupo {grupo}</h4>
+      <h6>aqui estan los alumnos registrados de el dia de hoy de el grupo {grupo}</h6>
       <div className="table-responsive">
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
