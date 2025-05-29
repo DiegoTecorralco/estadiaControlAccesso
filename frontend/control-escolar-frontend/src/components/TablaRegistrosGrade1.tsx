@@ -20,7 +20,7 @@ export const TablaRegistrosGrade1 = () => {
   useEffect(() => {
     getRegistrosByGrade("1")
       .then((response) => {
-        const { data } = response;
+        const { data } = response;  
         console.log("Registros recibidos del primer grado:", data);
         setRegistros(data);
       })
@@ -33,7 +33,7 @@ export const TablaRegistrosGrade1 = () => {
   const obtenerFecha = (hora: string) => hora.split(" ")[0];
 
   // Filtrar por fecha seleccionada si existe
-  const registrosFiltrados = fechaSeleccionada
+  const registrosFiltrados = fechaSeleccionada  
     ? registros.filter((reg) => obtenerFecha(reg.hora) === fechaSeleccionada)
     : registros;
 
@@ -44,7 +44,7 @@ export const TablaRegistrosGrade1 = () => {
   const renderTabla = (grupo: string, data: Registro[]) => (
     <div className="mb-5">
       <h4>Registros del Grupo {grupo}</h4>
-      <h6>Aquí están los alumnos registrados en la fecha seleccionada del grupo {grupo}</h6>
+      <p>Aquí están los alumnos registrados en la fecha seleccionada del grupo {grupo}</p>
       <div className="table-responsive">
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
@@ -83,18 +83,17 @@ export const TablaRegistrosGrade1 = () => {
   return (
     <>
       <div className="mb-4">
-  <label className="form-label">
-    <h2 className="text-primary fw-bold">Busca el Pase de lista por fecha:</h2>
-  </label>
-  <input
-    type="date"
-    className="form-control form-control-lg border border-3 border-primary shadow"
-    style={{ backgroundColor: "#e3f2fd", fontSize: "1.2rem" }}
-    value={fechaSeleccionada}
-    onChange={(e) => setFechaSeleccionada(e.target.value)}
-  />
-</div>
-
+        <label className="form-label">  
+          <h2 className="text-primary fw-bold">Busca el Pase de lista por fecha:</h2>
+        </label>
+        <input
+          type="date"
+          className="form-control form-control-lg border border-3 border-primary shadow"
+          style={{ backgroundColor: "#e3f2fd", fontSize: "1.2rem" }}
+          value={fechaSeleccionada}
+          onChange={(e) => setFechaSeleccionada(e.target.value)}
+        />
+      </div>
 
       {renderTabla("A", registrosGrupoA)}
       {renderTabla("B", registrosGrupoB)}

@@ -15,6 +15,7 @@ interface Registro {
 
 export const TablaRegistrosGrade2 = () => {
   const [registros, setRegistros] = useState<Registro[]>([]);
+  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>("");
 
   useEffect(() => {
     getRegistrosByGrade("2")
@@ -24,18 +25,24 @@ export const TablaRegistrosGrade2 = () => {
         setRegistros(data);
       })
       .catch((error) => {
-        console.error("Error al obtener los registros", error);
+        console.error("Error al obtener los registros", error); 
       });
   }, []);
 
-  const registrosGrupoA = registros.filter((reg) => reg.group === "A");
-  const registrosGrupoB = registros.filter((reg) => reg.group === "B");
-  const registrosGrupoC = registros.filter((reg) => reg.group === "C");
+  const obtenerFecha = (hora: string) => hora.split(" ")[0];
+
+  const registrosFiltrados = fechaSeleccionada
+  ? registros.filter((reg) =>obtenerFecha(reg.hora) === fechaSeleccionada)
+  : registros;
+
+  const registrosGrupoA = registrosFiltrados.filter((reg) => reg.group === "A");
+  const registrosGrupoB = registrosFiltrados.filter((reg) => reg.group === "B");
+  const registrosGrupoC = registrosFiltrados.filter((reg) => reg.group === "C");
 
   const renderTabla = (grupo: string, data: Registro[]) => (
     <div className="mb-5">
       <h4>Registros del Grupo {grupo}</h4>
-      <h6>aqui estan los alumnos registrados de el dia de hoy de el grupo {grupo}</h6>
+      <p>Aquí están los alumnos registrados en la fecha seleccionada del grupo {grupo}</p>
       <div className="table-responsive">
         <table className="table table-bordered table-striped">
           <thead className="table-dark">
@@ -73,6 +80,19 @@ export const TablaRegistrosGrade2 = () => {
 
   return (
     <>
+    <div className='mb-4'>
+      <label className='form-label'>
+        <h2 className='text-primary fw-bold'>Busca el Pase de lista por fecha:</h2>
+      </label>
+      <input
+      type='date'
+      className='form-control form-control-lg border border-3 border-primary shadow'
+      style={{backgroundColor: "#e3f2fd", fontSize: "1.2rem"}}
+      value={fechaSeleccionada}
+      onChange={(e) =>setFechaSeleccionada(e.target.value)}
+      />
+    </div>
+
       {renderTabla("A", registrosGrupoA)}
       {renderTabla("B", registrosGrupoB)}
       {renderTabla("C", registrosGrupoC)}

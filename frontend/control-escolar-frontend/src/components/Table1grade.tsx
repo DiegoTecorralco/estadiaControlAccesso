@@ -33,7 +33,7 @@ export const Table = () => {
   const renderTable = (grupo: string, data: Student[]) => (
     <div className="mb-5">
       <h4>Lista del Grupo {grupo}</h4>
-      <h6>Aqui estan todos los estudiantes inscritos en el 1 grado grupo {grupo}</h6>
+      <p>Aquí estan todos los estudiantes inscritos en el 1° grado grupo {grupo}</p>
       <div className="table-responsive">
         <table className="table table-bordered table-striped table-hover">
           <thead className="table-dark">
