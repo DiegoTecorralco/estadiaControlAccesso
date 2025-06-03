@@ -1,5 +1,10 @@
-// src/components/Navbar.tsx
 export const Navbar = ({ handleNavigation }: { handleNavigation: (component: string) => void }) => {
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload(); // Recarga para volver al login
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-light border-bottom mb-3">
       <div className="container-fluid">
@@ -22,6 +27,7 @@ export const Navbar = ({ handleNavigation }: { handleNavigation: (component: str
               <span className="fw-semibold text-primary">Registro:</span>
               <button className="btn btn-outline-primary btn-sm" onClick={() => handleNavigation("registro")}>registro general</button>
             </li>
+
             {/* Sección Registros */}
             <li className="nav-item d-flex align-items-center gap-2">
               <span className="fw-semibold text-primary">Registros:</span>
@@ -37,8 +43,12 @@ export const Navbar = ({ handleNavigation }: { handleNavigation: (component: str
               <button className="btn btn-outline-success btn-sm" onClick={() => handleNavigation("2grado")}>lista 2° grado</button>
               <button className="btn btn-outline-success btn-sm" onClick={() => handleNavigation("3grado")}>lista 3° grado</button>
             </li>
-
           </ul>
+
+          {/* Botón de cerrar sesión */}
+          <div className="d-flex">
+            <button className="btn btn-danger btn-sm" onClick={handleLogout}>Cerrar sesión</button>
+          </div>
         </div>
       </div>
     </nav>

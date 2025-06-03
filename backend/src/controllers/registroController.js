@@ -35,7 +35,7 @@ registroController.getOne = async (req,res) =>{
 
 registroController.insert = async (req, res) => {
   try {
-    const registro = await registroDAO.insert(req.body.nia); // <--- correcto
+    const registro = await registroDAO.insert(req.body.nia); 
     res.status(201).json({
       message: "Registro exitoso",
       data: registro

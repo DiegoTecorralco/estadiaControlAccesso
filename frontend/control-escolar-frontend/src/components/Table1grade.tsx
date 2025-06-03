@@ -17,7 +17,7 @@ export const Table = () => {
     getAllStudents()
       .then((data) => {
         const { data: dataStudents } = data;
-        const filtered = dataStudents.filter((student: Student) => student.grade === 2);
+        const filtered = dataStudents.filter((student: Student) => student.grade === 1);
         console.log("Estudiantes del semestre 2", filtered);
         setStudents(filtered);
       })
