@@ -76,4 +76,4 @@ Desarrollar una plataforma web con autenticación de usuarios que permita gestio
 
 | Integrante | Contacto | Rol | Observaciones |
 |------------|----------|-----|---------------|
-| Diego Salvador Tecorralco Martínez | [@DiegoTecorralco](https://github.com/DiegoTecorralco) | Líder de Backend, Documentación y Coordinación del Proyecto | ✅ Revisado y aprobado |
+| Diego Salvador Tecorralco Martínez | [@DiegoTecorralco](https://github.com/DiegoTecorralco) | Líder de Backend, Líder de Frontend, Líder de Documentación y Coordinación del Proyecto | ✅ Revisado y aprobado |
