@@ -1,7 +1,14 @@
+// src/components/Table.tsx
 import { useEffect, useState } from "react";
-import { getAllStudents } from '../services/studentServices';
+import {
+  getAllStudents,
+  updateStudent,
+  deleteStudent,
+} from "../services/studentServices";
+import logoCentroEscolar from "../assets/logo_centro_escolar.jpg";
 
 interface Student {
+  _id: string;
   nia: number;
   name: string;
   lastname: string;
@@ -12,19 +19,59 @@ interface Student {
 
 export const Table = () => {
   const [students, setStudents] = useState<Student[]>([]);
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    getAllStudents()
-      .then((data) => {
-        const { data: dataStudents } = data;
-        const filtered = dataStudents.filter((student: Student) => student.grade === 1);
-        console.log("Estudiantes del semestre 2", filtered);
-        setStudents(filtered);
-      })
-      .catch((error) => {
-        console.error("Error al obtener los datos de estudiantes", error);
-      });
+    fetchStudents();
   }, []);
+
+  const fetchStudents = async () => {
+    try {
+      const data = await getAllStudents();
+      const filtered = data.data.filter(
+        (student: Student) => student.grade === 1
+      );
+      setStudents(filtered);
+    } catch (error) {
+      console.error("Error al obtener los datos de estudiantes", error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (confirm("¿Estás seguro de eliminar este estudiante?")) {
+      await deleteStudent(id);
+      fetchStudents();
+    }
+  };
+
+  const handleEdit = (student: Student) => {
+    setSelectedStudent(student);
+    setShowModal(true);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    if (selectedStudent) {
+      setSelectedStudent({
+        ...selectedStudent,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
+  const handleSave = async () => {
+    if (selectedStudent) {
+      try {
+        await updateStudent(String(selectedStudent.nia), selectedStudent); // ✅ aquí usamos `nia` como id
+        setShowModal(false);
+        fetchStudents();
+      } catch (error) {
+        console.error("Error al actualizar el estudiante:", error);
+      }
+    }
+  };
 
   const grupoA = students.filter((student) => student.group === "A");
   const grupoB = students.filter((student) => student.group === "B");
@@ -49,7 +96,7 @@ export const Table = () => {
           </thead>
           <tbody>
             {data.map((student) => (
-              <tr key={student.nia}>
+              <tr key={student._id}>
                 <td>{student.nia}</td>
                 <td>{student.name}</td>
                 <td>{student.lastname}</td>
@@ -57,11 +104,21 @@ export const Table = () => {
                 <td>{student.grade}</td>
                 <td>{student.group}</td>
                 <td>
-                  <button className="btn btn-success btn-sm">Editar</button>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() => handleEdit(student)}
+                  >
+                    Editar
+                  </button>
                 </td>
                 <td>
-                  <button className="btn btn-danger btn-sm">Eliminar</button>
-                </td> 
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(student._id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -75,6 +132,91 @@ export const Table = () => {
       {renderTable("A", grupoA)}
       {renderTable("B", grupoB)}
       {renderTable("C", grupoC)}
+
+      {showModal && selectedStudent && (
+        <div className="modal d-block" tabIndex={-1}>
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div
+                className="modal-header"
+                style={{
+                  backgroundColor: "#007BFF",
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={logoCentroEscolar}
+                  alt="Logo"
+                  style={{ width: "40px", marginRight: "50px" }}
+                />
+                <h5 className="modal-title">Editar Estudiante</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowModal(false)}
+                ></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  name="name"
+                  className="form-control mb-2"
+                  value={selectedStudent.name}
+                  onChange={handleChange}
+                  placeholder="Nombre"
+                />
+                <input
+                  type="text"
+                  name="lastname"
+                  className="form-control mb-2"
+                  value={selectedStudent.lastname}
+                  onChange={handleChange}
+                  placeholder="Apellido"
+                />
+                <input
+                  type="text"
+                  name="semester"
+                  className="form-control mb-2"
+                  value={selectedStudent.semester}
+                  onChange={handleChange}
+                  placeholder="Semestre"
+                />
+                <input
+                  type="number"
+                  name="grade"
+                  className="form-control mb-2"
+                  value={selectedStudent.grade}
+                  onChange={handleChange}
+                  placeholder="Grado"
+                />
+                <select
+                  name="group"
+                  className="form-control mb-2"
+                  value={selectedStudent.group}
+                  onChange={handleChange}
+                >
+                  <option value="A">Grupo A</option>
+                  <option value="B">Grupo B</option>
+                  <option value="C">Grupo C</option>
+                </select>
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancelar
+                </button>
+                <button className="btn btn-primary" onClick={handleSave}>
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

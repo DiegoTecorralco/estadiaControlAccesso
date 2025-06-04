@@ -69,9 +69,9 @@ export const Table3grade = () => {
     )
   return (
     <>
-    {renderTable("A",grupoA)};
-    {renderTable("B",grupoB)};
-    {renderTable("C",grupoC)};
+    {renderTable("A",grupoA)}
+    {renderTable("B",grupoB)}
+    {renderTable("C",grupoC)}
     </>
   );
 };

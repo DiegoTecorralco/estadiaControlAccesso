@@ -33,7 +33,7 @@ export const Table2grade = () => {
       <div className="mb-5">
         <h4>Lista del grupo {grupo}</h4>
         <p>Aquí estan todos los estudiantes inscritos en el 2° grado grupo {grupo}</p>
-        <div className="tableResponsive">
+        <div className="table-responsive">
           <div className="table table-bordered table-striped table-hover">
             <thead className="table-dark">
               <tr>
@@ -71,9 +71,9 @@ export const Table2grade = () => {
 
   return (
     <>
-    {renderTable("A",grupoA)};
-    {renderTable("B",grupoB)};
-    {renderTable("C",grupoC)};
+    {renderTable("A",grupoA)}
+    {renderTable("B",grupoB)}
+    {renderTable("C",grupoC)}
     </>
   );
 };

@@ -1,3 +1,5 @@
+import LogoCentroEscolar from "../assets/logo_centro_escolar.jpg"
+
 export const Navbar = ({ handleNavigation }: { handleNavigation: (component: string) => void }) => {
 
   const handleLogout = () => {
@@ -8,6 +10,7 @@ export const Navbar = ({ handleNavigation }: { handleNavigation: (component: str
   return (
     <nav className="navbar navbar-expand-lg bg-light border-bottom mb-3">
       <div className="container-fluid">
+        <img src={LogoCentroEscolar} alt="logo" height={40} width={40}/>
         <a className="navbar-brand fw-bold" href="#">Control Escolar</a>
         <button
           className="navbar-toggler"

@@ -34,7 +34,7 @@ authController.login = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(401).json({ message: "Contraseña incorrecta" });
 
-    const token = jwt.sign({ id: user._id }, "secreto123", { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, "secreto123", { expiresIn: '15m' });
 
     res.json({ token, user: { username: user.username } });
   } catch (error) {
