@@ -1,14 +1,8 @@
-// src/components/Table.tsx
 import { useEffect, useState } from "react";
-import {
-  getAllStudents,
-  updateStudent,
-  deleteStudent,
-} from "../services/studentServices";
+import { getAllStudents, updateStudent, deleteStudent } from "../services/studentServices";
 import logoCentroEscolar from "../assets/logo_centro_escolar.jpg";
 
 interface Student {
-  _id: string;
   nia: number;
   name: string;
   lastname: string;
@@ -21,6 +15,7 @@ export const Table = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null); 
 
   useEffect(() => {
     fetchStudents();
@@ -29,19 +24,10 @@ export const Table = () => {
   const fetchStudents = async () => {
     try {
       const data = await getAllStudents();
-      const filtered = data.data.filter(
-        (student: Student) => student.grade === 1
-      );
+      const filtered = data.data.filter((student: Student) => student.grade === 1);
       setStudents(filtered);
     } catch (error) {
-      console.error("Error al obtener los datos de estudiantes", error);
-    }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (confirm("¿Estás seguro de eliminar este estudiante?")) {
-      await deleteStudent(id);
-      fetchStudents();
+      console.error("Error al obtener los datos de los estudiantes", error);
     }
   };
 
@@ -50,13 +36,24 @@ export const Table = () => {
     setShowModal(true);
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleDeleteClick = (student: Student) => {
+    setStudentToDelete(student);
+  };
+
+  const confirmDelete = async () => {
+    if (studentToDelete) {
+      await deleteStudent(studentToDelete.nia);
+      setStudentToDelete(null); 
+      fetchStudents();
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (selectedStudent) {
+      const { name, value } = e.target;
       setSelectedStudent({
         ...selectedStudent,
-        [e.target.name]: e.target.value,
+        [name]: name === "grade" ? parseInt(value) : value,
       });
     }
   };
@@ -64,7 +61,7 @@ export const Table = () => {
   const handleSave = async () => {
     if (selectedStudent) {
       try {
-        await updateStudent(String(selectedStudent.nia), selectedStudent); // ✅ aquí usamos `nia` como id
+        await updateStudent(selectedStudent.nia, selectedStudent);
         setShowModal(false);
         fetchStudents();
       } catch (error) {
@@ -96,7 +93,7 @@ export const Table = () => {
           </thead>
           <tbody>
             {data.map((student) => (
-              <tr key={student._id}>
+              <tr key={student.nia}>
                 <td>{student.nia}</td>
                 <td>{student.name}</td>
                 <td>{student.lastname}</td>
@@ -114,7 +111,7 @@ export const Table = () => {
                 <td>
                   <button
                     className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(student._id)}
+                    onClick={() => handleDeleteClick(student)} 
                   >
                     Eliminar
                   </button>
@@ -133,6 +130,7 @@ export const Table = () => {
       {renderTable("B", grupoB)}
       {renderTable("C", grupoC)}
 
+      {/* Modal para Editar */}
       {showModal && selectedStudent && (
         <div className="modal d-block" tabIndex={-1}>
           <div className="modal-dialog">
@@ -175,22 +173,26 @@ export const Table = () => {
                   onChange={handleChange}
                   placeholder="Apellido"
                 />
-                <input
-                  type="text"
+                <select
                   name="semester"
                   className="form-control mb-2"
                   value={selectedStudent.semester}
                   onChange={handleChange}
-                  placeholder="Semestre"
-                />
-                <input
-                  type="number"
+                >
+                  {[1, 2, 3, 4, 5, 6].map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+                <select
                   name="grade"
                   className="form-control mb-2"
                   value={selectedStudent.grade}
                   onChange={handleChange}
-                  placeholder="Grado"
-                />
+                >
+                  {[1, 2, 3].map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
                 <select
                   name="group"
                   className="form-control mb-2"
@@ -212,6 +214,31 @@ export const Table = () => {
                 <button className="btn btn-primary" onClick={handleSave}>
                   Guardar
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Confirmación de Eliminación */}
+      {studentToDelete && (
+        <div className="modal d-block" tabIndex={-1}>
+          <div className="modal-dialog modal-sm">
+            <div className="modal-content">
+              <div className="modal-header bg-danger text-white">
+                <h5 className="modal-title">Confirmar Eliminación</h5>
+                <button type="button" className="btn-close" onClick={() => setStudentToDelete(null)}></button>
+              </div>
+              <div className="modal-body text-center">
+                <p>
+                  ¿Estás seguro de que deseas eliminar al estudiante <strong>{studentToDelete.name} {studentToDelete.lastname}</strong>?
+                </p>
+                <p><small>Esta acción no es reversible</small></p>
+                <p><small>NIA: {studentToDelete.nia}</small></p>
+              </div>
+              <div className="modal-footer justify-content-center">
+                <button className="btn btn-danger" onClick={() => setStudentToDelete(null)}>Cancelar</button>
+                <button className="btn btn-success" onClick={confirmDelete}>Confirmar</button>
               </div>
             </div>
           </div>

@@ -1,8 +1,8 @@
+// src/services/studentServices.ts
 import axios from 'axios';
 
 const api_url = "http://localhost:3100/api/student";
 
-// ✅ Agrega automáticamente el token en cada solicitud
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
   return {
@@ -17,8 +17,8 @@ export const getAllStudents = async (): Promise<any> => {
   return response.data;
 };
 
-export const getOneStudent = async (id: string): Promise<any> => {
-  const response = await axios.get(`${api_url}/getOne/${id}`, getAuthHeaders());
+export const getOneStudent = async (nia: number): Promise<any> => {
+  const response = await axios.get(`${api_url}/getOne/${nia}`, getAuthHeaders());
   return response.data.data;
 };
 
@@ -27,13 +27,13 @@ export const insertStudent = async (student: any): Promise<any> => {
   return response.data;
 };
 
-export const updateStudent = async (id: string, student: any): Promise<any> => {
-  const response = await axios.put(`${api_url}/update/${id}`, student, getAuthHeaders());
+export const updateStudent = async (nia: number, student: any): Promise<any> => {
+  const response = await axios.put(`${api_url}/update/${nia}`, student, getAuthHeaders());
   return response.data;
 };
 
-export const deleteStudent = async (id: string): Promise<any> => {
-  const response = await axios.delete(`${api_url}/delete/${id}`, getAuthHeaders());
+export const deleteStudent = async (nia: number): Promise<any> => {
+  const response = await axios.delete(`${api_url}/deleteByNia/${nia}`, getAuthHeaders());
   return response.data;
 };
 

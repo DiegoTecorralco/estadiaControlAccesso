@@ -10,6 +10,8 @@ import { Table2grade } from './components/Table2grade';
 import { Table3grade } from './components/Table3grade';
 import { Login } from './components/Login';
 import logoCentroEscolar from './assets/logo_centro_escolar.jpg';
+import { StudentForm } from './components/StudentForm';
+
 
 interface DecodedToken {
   exp: number;
@@ -97,8 +99,19 @@ function App() {
               <Form />
             </>
           )}
+        <div className="col-12">
+          {activeComponent === "añadir" && (
+            <>
+              <div className="text-center my-4">
+                <img src={logoCentroEscolar} alt="Logo Centro Escolar" style={{ width: '150px' }} />
+                <h1 className="mt-3">Registrar Estudiante Nuevo</h1>
+              </div>
+              <StudentForm />
+            </>
+          )}
         </div>
-        <div className="col-12">{activeComponent === "1ro" && <><Form /><TablaRegistrosGrade1 /></>}</div>
+        </div>
+        <div className="col-12">{activeComponent === "1ro" && <><Form /><TablaRegistrosGrade1 /></>}</div>  
         <div className="col-12">{activeComponent === "2do" && <><Form /><TablaRegistrosGrade2 /></>}</div>
         <div className="col-12">{activeComponent === "3ro" && <><Form /><TablaRegistrosGrade3 /></>}</div>
         <div className="col-12">{activeComponent === "1grado" && <Table />}</div>
